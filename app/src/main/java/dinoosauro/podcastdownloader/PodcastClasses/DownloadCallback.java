@@ -89,6 +89,10 @@ public class DownloadCallback {
                     try {
                         Mp3File mp3File = new Mp3File(file);
                         ID3v2 tag = mp3File.getId3v2Tag();
+                        if (tag == null) { // The downloaded file doesn't have any MP3 tag. We need to create it, otherwise mp3agic will throw an exception.
+                            tag = new com.mpatric.mp3agic.ID3v24Tag(); 
+                            mp3File.setId3v2Tag(tag);
+                        }
                         tag.setAlbum(currentPodcastInformation.title);
                         tag.setAlbumArtist(currentPodcastInformation.author);
                         try {
